@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/20 17:59:11 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/21 12:04:12 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ static	int		ft_add_word(char **tab, char const *str, int *nb_word, int c);
 static	void	ft_free(char **tab, int n);
 static	int		ft_word(char const *str, int i, int *nb_word, int c);
 char    *get_path(char **envp);
-
+char	*absolute_path(char *path, char *cmd, char **s_path);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	error_management(int argc, char **argv);
 #endif

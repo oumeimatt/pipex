@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/20 17:57:21 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/21 14:43:00 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,46 +50,26 @@ int main(int argc, char **argv, char **envp)
 	int         fds[2];
 	pid_t       pid;
 	t_tokens    *tokens;
-	int         in;
 	char		*path;
 	char		**split_path;
 	int			acc;
+	int			i = 0;
 	
-	if(argc != 5)
-	{
-		ft_putstr_fd("Error : need 5 arguments\n", 2);
-		exit(EXIT_FAILURE);
-	}
-	in = open(argv[1], O_RDONLY);
-	if (in == -1)
-	{
-		perror(argv[1] );
-		exit(EXIT_FAILURE);
-	}
+	error_management(argc, argv);
 	tokens = init_tokens(argc, argv);
 	path = get_path(envp);
 	split_path = ft_split(path, ':');
-	int i = 1;
-	char *first;
-	first = split_path[0] + 5;
-	char *tmp = ft_strjoin(first, "/");
-	char *tmp2 = ft_strjoin(tmp, tokens->cmd[0]);
-	acc = access(tmp2, F_OK);
-	while (acc != 0 && split_path[i] != NULL)
-	{
-		free(tmp);
-		free(tmp2);
-		tmp = ft_strjoin(split_path[i], "/");
-		tmp2 = ft_strjoin(tmp, tokens->cmd[0]);
-		printf("tmp2 == %s\n", tmp2);
-		acc = access(tmp2, F_OK);
-		i++;
-	}
-	if (acc == 0)
-		tokens->cmd[0] = tmp2;
-	printf("first cmd ===== %s\n", tokens->cmd[0]);
+	tokens->cmd[0] = absolute_path(path, tokens->cmd[0], split_path);
+	tokens->next->cmd[0] = absolute_path(path, tokens->next->cmd[0], split_path);
+	// need to check if cmd is found 
 	if(pipe(fds) == -1)
 		exit(EXIT_FAILURE);
+	// while (i < 4)
+	// {
+	// 	pid = fork();	
+	// 	if (pid == -1)
+	// 		exit(EXIT_FAILURE);
+	// 	if (close)
 	pid = fork();
 	if(pid == -1)
 		exit(EXIT_FAILURE);

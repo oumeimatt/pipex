@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 18:24:12 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/20 16:21:15 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/21 13:04:26 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*str;
 	size_t	len;
 
+	if (!s1 && s2)
+		return ((char*)s1);
+	if (s1 && !s2)
+		return ((char*)s2);
 	len = ft_strlen((char*)s1) + ft_strlen((char*)s2);
 	str = (char*)malloc(sizeof(char) * (len + 1));
-	if (str == NULL || !s1 || !s2)
+	if (str == NULL)
 		return (NULL);
 	i = 0;
 	while (i < ft_strlen((char*)s1))
