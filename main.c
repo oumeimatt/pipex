@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/21 14:43:00 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/22 20:00:37 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_tokens    *init_tokens(int argc, char **argv)
 	char		**cmd1;
 	char		**cmd2;
 
+	tokens = NULL;
 	cmd1 = ft_split(argv[2], ' ');
 	ft_add_node(&tokens, cmd1);
 	cmd2 = ft_split(argv[3], ' ');
@@ -52,8 +53,6 @@ int main(int argc, char **argv, char **envp)
 	t_tokens    *tokens;
 	char		*path;
 	char		**split_path;
-	int			acc;
-	int			i = 0;
 	
 	error_management(argc, argv);
 	tokens = init_tokens(argc, argv);
@@ -61,15 +60,10 @@ int main(int argc, char **argv, char **envp)
 	split_path = ft_split(path, ':');
 	tokens->cmd[0] = absolute_path(path, tokens->cmd[0], split_path);
 	tokens->next->cmd[0] = absolute_path(path, tokens->next->cmd[0], split_path);
-	// need to check if cmd is found 
-	if(pipe(fds) == -1)
-		exit(EXIT_FAILURE);
-	// while (i < 4)
-	// {
-	// 	pid = fork();	
-	// 	if (pid == -1)
-	// 		exit(EXIT_FAILURE);
-	// 	if (close)
+	cmd_not_found(argv, tokens->cmd[0] , tokens->next->cmd[0]);
+	if (pipe(fds) == -1)
+		exit(EXIT_FAILURE);	
+	
 	pid = fork();
 	if(pid == -1)
 		exit(EXIT_FAILURE);

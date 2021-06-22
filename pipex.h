@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/21 12:04:12 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/22 19:27:01 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,7 @@ char    *get_path(char **envp);
 char	*absolute_path(char *path, char *cmd, char **s_path);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	error_management(int argc, char **argv);
+t_tokens    *init_tokens(int argc, char **argv);
+void	ft_putendl_fd(char *s, int fd);
+void	cmd_not_found(char **argv, char *cmd1, char *cmd2);
 #endif

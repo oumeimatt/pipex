@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 18:24:12 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/21 13:04:26 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/22 19:25:00 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,17 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[len] = '\0';
 	return (str);
+}
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	int i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
+	ft_putchar_fd('\n', fd);
 }
