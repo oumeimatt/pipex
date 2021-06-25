@@ -6,11 +6,15 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/25 16:44:41 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/25 18:27:54 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+// i need to fix cmd1 ="" ||  cmm2 = ""
+
+
 
 void    ft_add_node(t_tokens **head_Ref, char **cmd)
 {
@@ -80,7 +84,7 @@ t_tokens	*hd_tokens(char **argv)
 	return (tokens);
 }
 
-void	here_doc(t_tokens *tokens, char **split_path, char **argv)
+void	read_line(t_tokens *tokens, char **split_path, char **argv)
 {
 	char	*line;
 	char	*limiter;
@@ -95,11 +99,13 @@ void	here_doc(t_tokens *tokens, char **split_path, char **argv)
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	free(line);
+	if (line)
+		free(line);
 	close(fd);
-	tokens->cmd[0] = tokens->cmd[0] = absolute_path(tokens->cmd[0], split_path);
-	tokens->next->cmd[0] = absolute_path(tokens->next->cmd[0], split_path);
-	
+	if (strcmp(argv[3], "") != 0)
+		tokens->cmd[0] = tokens->cmd[0] = absolute_path(tokens->cmd[0], split_path);
+	if (strcmp(argv[4], "") != 0)
+		tokens->next->cmd[0] = absolute_path(tokens->next->cmd[0], split_path);
 }
 
 void print_list(t_tokens *head) 
@@ -112,16 +118,21 @@ void print_list(t_tokens *head)
         current_node = current_node->next;
 	}
 }
-void	exec_cmd1(char **argv, char **cmd, int fds[2])
+void	exec_cmd1(char **argv, char **cmd, t_tokens *tokens)
 {
 	char	**split_arg;
 	int		in;
 
 	in = open("/tmp/helper", O_RDONLY);
-	close(fds[0]);
-	dup2(fds[1], 1);
+	close(tokens->in);
+	dup2(tokens->out, 1);
 	dup2(in, 0);
 	unlink("/tmp/helper");
+	if (strcmp(argv[3], "") == 0)
+	{
+		ft_putstr_fd(" : command not found\n", 2);
+		exit(0);
+	}
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[3], ' ');
@@ -131,7 +142,7 @@ void	exec_cmd1(char **argv, char **cmd, int fds[2])
 	}
 }
 
-void	exec_cmd2(char **argv, char **cmd, int fds[2])
+void	exec_cmd2(char **argv, char **cmd, t_tokens *tokens)
 {
 	int		out;
 	char	**split_arg;
@@ -142,9 +153,9 @@ void	exec_cmd2(char **argv, char **cmd, int fds[2])
 		perror(argv[5] );
 		exit(1);
 	}
-	close(fds[1]);
-	dup2(fds[0], 0);
-	dup2(out, STDOUT_FILENO);
+	close(tokens->out);
+	dup2(tokens->in, 0);
+	dup2(out, 1);
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[4], ' ');
@@ -153,14 +164,49 @@ void	exec_cmd2(char **argv, char **cmd, int fds[2])
 		exit(127);
 	}
 }
+
+void	ft_pipe(t_tokens *tokens)
+{
+	int		fds[2];
+
+	if (pipe(fds) == -1)
+		exit(EXIT_FAILURE);	
+	tokens->in = fds[0];
+	tokens->out = fds[1];
+}
+
+int		here_doc(t_tokens *tokens, char **argv, char **split_path)
+{
+	int		stats;
+	int		pid;
+
+	read_line(tokens, split_path, argv);
+	ft_pipe(tokens);
+	pid = fork();
+	if(pid == -1)
+		exit(EXIT_FAILURE);
+	if(pid == 0)
+		exec_cmd1(argv, tokens->cmd, tokens);
+	while (wait(&stats) > 0);
+	pid = fork();
+	if(pid == -1)
+		exit(EXIT_FAILURE);
+	if(pid == 0)
+		exec_cmd2(argv, tokens->next->cmd, tokens);
+	close (tokens->in);
+	close(tokens->out);
+	while (wait(&stats) > 0)
+	{
+ 		if (WIFEXITED(stats))
+	 		return (WEXITSTATUS(stats));
+	}
+	return (0);
+}
 int     main(int argc, char ** argv, char **envp)
 {
-	pid_t		pid;
-	int		fds[2];
 	t_tokens	*tokens;
 	char		*path;
 	char		**split_path;
-	int			stats;
 
 	tokens = NULL;
 	bonus_args(argc, argv);
@@ -169,27 +215,12 @@ int     main(int argc, char ** argv, char **envp)
 	if (strcmp(argv[1], "here_doc\0") == TRUE)
 	{
 		tokens = hd_tokens(argv);
-		here_doc(tokens, split_path, argv);
-		if (pipe(fds) == -1)
-			exit(EXIT_FAILURE);	
-		pid = fork();
-		if(pid == -1)
-			exit(EXIT_FAILURE);
-		if(pid == 0)
-			exec_cmd1(argv, tokens->cmd, fds);
-		while (wait(&stats) > 0);
-		pid = fork();
-		if(pid == -1)
-			exit(EXIT_FAILURE);
-		if(pid == 0)
-			exec_cmd2(argv, tokens->next->cmd, fds);
-		close (fds[0]);
-		close(fds[1]);
-		while (wait(&stats) > 0)
+		if (strcmp(argv[4], "") == TRUE)
 		{
- 			if (WIFEXITED(stats))
-		 		return (WEXITSTATUS(stats));
+			read_line(tokens, split_path, argv);
+			ft_putstr_fd(" : command not found\n", 2);
+			exit(127);
 		}
+		return (here_doc(tokens, argv, split_path));
 	}
-	
 }

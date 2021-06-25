@@ -6,7 +6,7 @@
 #    By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 17:51:17 by oel-yous          #+#    #+#              #
-#    Updated: 2021/06/25 12:57:10 by oel-yous         ###   ########.fr        #
+#    Updated: 2021/06/25 18:09:51 by oel-yous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= pipex
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 
 SRCS		=  exec_cmds.c \
 				ft_split.c \
