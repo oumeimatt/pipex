@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/25 15:44:18 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/25 16:44:41 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,23 @@ t_tokens	*hd_tokens(char **argv)
 	return (tokens);
 }
 
-void	here_doc(t_tokens *tokens, char **split_path)
+void	here_doc(t_tokens *tokens, char **split_path, char **argv)
 {
 	char	*line;
 	char	*limiter;
 	int		fd;
 
-	fd = open("/tmp/helper", O_RDONLY | O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open("/tmp/helper", O_RDONLY | O_WRONLY | O_CREAT, 0644);
 	limiter = argv[2];
 	while (get_next_line(0, &line) > 0)
 	{
 		if (strcmp(line, limiter) == 0)
 			break;
-		ft_putstr_fd(&line, fd);
+		ft_putendl_fd(line, fd);
+		free(line);
 	}
+	free(line);
+	close(fd);
 	tokens->cmd[0] = tokens->cmd[0] = absolute_path(tokens->cmd[0], split_path);
 	tokens->next->cmd[0] = absolute_path(tokens->next->cmd[0], split_path);
 	
@@ -114,10 +117,11 @@ void	exec_cmd1(char **argv, char **cmd, int fds[2])
 	char	**split_arg;
 	int		in;
 
-	in = open("/tmp/helper", O_WRONLY | O_RDONLY ,0644);
+	in = open("/tmp/helper", O_RDONLY);
 	close(fds[0]);
 	dup2(fds[1], 1);
 	dup2(in, 0);
+	unlink("/tmp/helper");
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[3], ' ');
@@ -157,10 +161,7 @@ int     main(int argc, char ** argv, char **envp)
 	char		*path;
 	char		**split_path;
 	int			stats;
-	// char		*line;
-	// char		*limiter = NULL;
 
-	// limiter = argv[2];
 	tokens = NULL;
 	bonus_args(argc, argv);
 	path = get_path(envp);
@@ -168,7 +169,7 @@ int     main(int argc, char ** argv, char **envp)
 	if (strcmp(argv[1], "here_doc\0") == TRUE)
 	{
 		tokens = hd_tokens(argv);
-		here_doc(tokens, split_path);
+		here_doc(tokens, split_path, argv);
 		if (pipe(fds) == -1)
 			exit(EXIT_FAILURE);	
 		pid = fork();
