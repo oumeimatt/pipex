@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/24 14:59:22 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/25 12:48:56 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char    *get_path(char **envp)
 	return (line);
 }
 
-char	*absolute_path(char *path, char *cmd, char **s_path)
+char	*absolute_path(char *cmd, char **s_path)
 {
 	int		i;
 	char	*first;
@@ -55,7 +55,10 @@ char	*absolute_path(char *path, char *cmd, char **s_path)
 		i++;
 	}
 	if (acc == 0)
+	{
 		cmd = commande;
+		free(failed);
+	}
 	else
 		cmd = failed;
 	return (cmd);
@@ -63,10 +66,6 @@ char	*absolute_path(char *path, char *cmd, char **s_path)
 
 void	error_management(int argc, char **argv)
 {
-	int		in;
-	int		out;
-	char	*path;
-
 	if (argc != 5)
 	{
 		ft_putstr_fd("Error : need 5 arguments\n", 2);
@@ -77,7 +76,7 @@ void	error_management(int argc, char **argv)
 	if (strcmp(argv[3], "") == TRUE)
 	{
 		ft_putstr_fd(" : command not found\n", 2);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 

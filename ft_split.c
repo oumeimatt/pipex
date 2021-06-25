@@ -6,13 +6,13 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 04:18:37 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/19 18:32:18 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/25 13:00:24 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static	int		ft_word(char const *str, int i, int *nb_word, int c)
+int		ft_word(char const *str, int i, int *nb_word, int c)
 {
 	*nb_word += 1;
 	while (str[i] != c && str[i] != '\0')
@@ -20,7 +20,7 @@ static	int		ft_word(char const *str, int i, int *nb_word, int c)
 	return (i);
 }
 
-static	void	ft_free(char **tab, int n)
+void	ft_free2(char **tab, int n)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ static	void	ft_free(char **tab, int n)
 	tab = NULL;
 }
 
-static	int		ft_add_word(char **tab, char const *str, int *nb_word, int c)
+int		ft_add_word(char **tab, char const *str, int *nb_word, int c)
 {
 	int		word_len;
 	int		j;
@@ -44,7 +44,7 @@ static	int		ft_add_word(char **tab, char const *str, int *nb_word, int c)
 		word_len++;
 	if (!(tmp = (char *)malloc((word_len + 1) * sizeof(char))))
 	{
-		ft_free(tab, *nb_word);
+		ft_free2(tab, *nb_word);
 		*nb_word = 0;
 		return (strlen(str));
 	}
@@ -60,7 +60,7 @@ static	int		ft_add_word(char **tab, char const *str, int *nb_word, int c)
 	return (word_len);
 }
 
-static	void	initial(int *i, int *j)
+void	initial(int *i, int *j)
 {
 	*i = 0;
 	*j = 0;

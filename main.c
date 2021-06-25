@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/24 17:37:25 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/24 18:34:27 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ void    ft_add_node(t_tokens **head_Ref, char **cmd)
 	return ;
 }
 
-t_tokens    *init_tokens(int argc, char **argv)
+t_tokens    *init_tokens(char **argv)
 {
-	int			i;
 	t_tokens	*tokens;
 	char		**cmd1;
 	char		**cmd2;
@@ -56,11 +55,11 @@ int main(int argc, char **argv, char **envp)
 	int			stats;
 	
 	error_management(argc, argv);
-	tokens = init_tokens(argc, argv);
+	tokens = init_tokens(argv);
 	path = get_path(envp);
 	split_path = ft_split(path, ':');
-	tokens->cmd[0] = absolute_path(path, tokens->cmd[0], split_path);
-	tokens->next->cmd[0] = absolute_path(path, tokens->next->cmd[0], split_path);
+	tokens->cmd[0] = absolute_path(tokens->cmd[0], split_path);
+	tokens->next->cmd[0] = absolute_path(tokens->next->cmd[0], split_path);
 	if (pipe(fds) == -1)
 		exit(EXIT_FAILURE);	
 	pids[0] = fork();
@@ -68,16 +67,20 @@ int main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	if(pids[0] == 0)
 		exec_first_cmd(argv, tokens->cmd, fds);
-	// close(fds[1]); 
 	pids[1] = fork();
 	if(pids[1] == -1)
 		exit(EXIT_FAILURE);
 	if(pids[1] == 0)
 		exec_sec_cmd(argv, tokens->next->cmd, fds);
-	// close(fds[0]);	
+	close (fds[0]);
+	close(fds[1]);
 	while (wait(&stats) > 0)
 	{
+		printf("exit status = %d\n", WEXITSTATUS(stats));
  		if (WIFEXITED(stats))
 		 	return (WEXITSTATUS(stats));
 	}
 }
+
+
+
