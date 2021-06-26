@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/25 13:02:01 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/26 15:21:27 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@
 
 typedef struct s_tokens
 {
-    char    **cmd;
-    int     in;
-    int     out;
-    struct s_tokens *next;
+	char    **cmd;
+	int     in;
+	int     out;
+	struct s_tokens *next;
 }               t_tokens;
-
 
 // static int		ft_free(char **s1, int ret);
 // static int		ft_line(char **p, char **line, int ret);
@@ -43,6 +42,15 @@ char	*ft_strchr(const char *s, int c);
 // char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		get_next_line(int fd, char **line);
+
+// here_doc 
+void	exec_cmd1(char **argv, char **cmd, t_tokens *tokens);
+void	exec_cmd2(char **argv, char **cmd, t_tokens *tokens);
+int		here_doc(t_tokens *tokens, char **argv, char **split_path);
+void	read_line(t_tokens *tokens, char **split_path, char **argv);
+t_tokens	*hd_tokens(char **argv);
+void	ft_pipe(t_tokens *tokens);
+
 
 
 void    ft_add_node(t_tokens **head_Ref, char **cmd);
@@ -68,5 +76,11 @@ void	ft_putendl_fd(char *s, int fd);
 void	cmd_not_found(char **argv, char *cmd1, char *cmd2);
 void	exec_first_cmd(char **argv, char **cmd, int fds[2]);
 void	exec_sec_cmd(char **argv, char **cmd, int fds[2]);
+
+
+void	last_cmd(int argc, char **argv, char **cmd, t_tokens *tokens);
+void    exec_cmd(char **argv, char **cmd, t_tokens *tokens);
+void	first_cmd(char **argv, char **cmd, t_tokens *tokens);
+t_tokens	*init_tokens_2(int argc, char	**argv);
 
 #endif

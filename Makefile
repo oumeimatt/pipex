@@ -6,7 +6,7 @@
 #    By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 17:51:17 by oel-yous          #+#    #+#              #
-#    Updated: 2021/06/25 18:09:51 by oel-yous         ###   ########.fr        #
+#    Updated: 2021/06/26 15:53:49 by oel-yous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= pipex
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror
 
 SRCS		=  exec_cmds.c \
 				ft_split.c \
@@ -23,6 +23,8 @@ SRCS		=  exec_cmds.c \
 				bonus/get_next_line.c \
 				bonus/get_next_line_utils.c \
 				pipex_bonus.c \
+				here_doc.c \
+				multiple_pipes.c
 
 OBJS 		= $(SRCS:.c=.o)
 
