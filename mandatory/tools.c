@@ -1,46 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/28 10:35:55 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/25 11:46:10 by oel-yous         ###   ########.fr       */
+/*   Created: 2021/06/29 15:16:34 by oel-yous          #+#    #+#             */
+/*   Updated: 2021/06/29 15:36:29 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
-
-size_t	ft_strlen(const char *str)
-{
-	size_t i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int				i;
-	char			ch;
-	unsigned char	*str;
-
-	i = 0;
-	ch = (char)c;
-	str = (unsigned char *)s;
-	while (*str)
-	{
-		if (*str == ch)
-			return ((char *)(str + i));
-		str++;
-	}
-	if (ch == '\0')
-		return ((char*)str);
-	return (NULL);
-}
+#include "../includes/pipex.h"
 
 char	*ft_strdup(const char *s1)
 {
@@ -66,6 +36,16 @@ char	*ft_strdup(const char *s1)
 	return (temp);
 }
 
+size_t		ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	i;
@@ -73,13 +53,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*str;
 	size_t	len;
 
+	if (!s1 && s2)
+		return ((char*)s1);
+	if (s1 && !s2)
+		return ((char*)s2);
 	len = ft_strlen((char*)s1) + ft_strlen((char*)s2);
 	str = (char*)malloc(sizeof(char) * (len + 1));
-	if (str == NULL || !s1 || !s2)
+	if (str == NULL)
 		return (NULL);
 	i = 0;
-	j = ft_strlen((char*)s1);
-	while (i < j)
+	while (i < ft_strlen((char*)s1))
 	{
 		str[i] = s1[i];
 		i++;
@@ -93,27 +76,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[len] = '\0';
 	return (str);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*newstr;
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen((char *)s))
-		return (ft_strdup(""));
-	newstr = (char*)malloc(sizeof(char) * (len + 1));
-	if (!newstr)
-		return (NULL);
-	while (len-- > 0)
-	{
-		newstr[i] = s[start];
-		i++;
-		start++;
-	}
-	newstr[i] = '\0';
-	return (newstr);
 }

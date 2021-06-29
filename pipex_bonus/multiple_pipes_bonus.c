@@ -6,11 +6,11 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/26 16:58:18 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 t_tokens	*init_tokens_2(int argc, char	**argv)
 {

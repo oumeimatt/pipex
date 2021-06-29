@@ -6,11 +6,11 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/26 16:18:10 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 void    ft_add_node(t_tokens **head_Ref, char **cmd)
 {
