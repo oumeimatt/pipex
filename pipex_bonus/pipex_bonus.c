@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/29 17:12:49 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_pipe(t_tokens *tokens)
 		tokens = tokens->next;
 	}
 	// tokens->next->in = tokens->in;
-	// tokens->next->out = tokens->out;
+	// tokens->out = fds[1];
 }
 
 int     main(int argc, char ** argv, char **envp)
@@ -100,10 +100,11 @@ int     main(int argc, char ** argv, char **envp)
 	t_tokens	*tokens;
 	t_tokens	*tmp;
 	char		*path;
+	int 		start;
 	char		**split_path;
 	pid_t		pid;
-	// int			i;
-	int			stats;
+	int			i;
+	// int			stats;
 
 	tokens = NULL;
 	bonus_args(argc, argv);
@@ -132,29 +133,40 @@ int     main(int argc, char ** argv, char **envp)
 			else
 				break;
 		}
-		ft_pipe(tokens);
-		pid = fork();
-		if(pid == -1)
-			exit(EXIT_FAILURE);
-		if(pid == 0)
-			first_cmd(argv, tokens->cmd, tokens);
-		tokens = tokens->next;
-		// while ()
-		// {
-			
-		// }
-		pid = fork();
-		if(pid == -1)
-			exit(EXIT_FAILURE);
-		if(pid == 0)
-			last_cmd(argc, argv, tokens->cmd, tokens);
-		close (tokens->in);
-		close(tokens->out);
-		while (wait(&stats) > 0)
+		start = 1;
+		i = 2;
+		while (i <  argc - 1)
 		{
-			printf("exit status = %d\n", WEXITSTATUS(stats));
- 			if (WIFEXITED(stats))
-			 	return (WEXITSTATUS(stats));
+			if (start == 1)
+			{
+				ft_pipe(tokens);
+				pid = fork();
+				if (pid < 0)
+					exit(1);
+				if (pid == 0)
+					first_cmd(argv, tokens->cmd, tokens);
+				tokens = tokens->next;
+				start = 0;
+				i++;
+			}
+			if (i == argc - 2)
+			{
+				pid = fork();
+				if (pid < 0)
+					exit(1);
+				if (pid == 0)
+					last_cmd(argc, argv, tokens->cmd, tokens);
+				close (tokens->in);
+				close(tokens->out);
+				break;
+			}
+			else
+			{
+				ft_pipe(tokens);
+				exec_cmd(argv, tokens->cmd, tokens);
+				tokens = tokens->next;
+				i++;
+			}
 		}
 	}
 }

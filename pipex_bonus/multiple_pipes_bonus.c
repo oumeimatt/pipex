@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   multiple_pipes.c                                   :+:      :+:    :+:   */
+/*   multiple_pipes_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/29 17:14:59 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void    exec_cmd(char **argv, char **cmd, t_tokens *tokens)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
     {
+		
         close(tokens->in);
         dup2(tokens->out, 1);
         if (execve(cmd[0], cmd, NULL) == -1)
@@ -72,11 +73,10 @@ void    exec_cmd(char **argv, char **cmd, t_tokens *tokens)
 	    	exit(0);
 	    }
     }
-    if (tokens->out != 1)
-        close(tokens->out);
-    if (tokens->in != 0)
-        close(tokens->in);
-    while (wait(0));
+    // if (tokens->out != 1)
+    //     close(tokens->out);
+    // if (tokens->in != 0)
+    //     close(tokens->in);
 }
 
 void	last_cmd(int argc, char **argv, char **cmd, t_tokens *tokens)
