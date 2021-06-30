@@ -6,123 +6,90 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 04:18:37 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 15:34:27 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 18:32:06 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-static int		tab_aloc(char *str, char m)
+int	ft_word(char const *str, int i, int *nb_word, int c)
 {
-	int i;
-	int c;
+	*nb_word += 1;
+	while (str[i] != c && str[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	ft_free2(char **tab, int n)
+{
+	int	i;
 
 	i = 0;
-	c = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == m)
-			i++;
-		else
-		{
-			c++;
-			while (str[i] != '\0')
-			{
-				if (str[i] == m)
-					break ;
-				i++;
-			}
-		}
-	}
-	return (c);
+	while (i > n)
+		free(tab[i++]);
+	free(tab);
+	tab = NULL;
 }
 
-static int		string(char *str, int *k, char m)
+int	ft_add_word(char **tab, char const *str, int *nb_word, int c)
 {
-	int c;
+	int		word_len;
+	int		j;
+	char	*tmp;
+	int		k;
 
-	c = 0;
-	while (str[*k] != '\0')
+	word_len = 0;
+	k = 0;
+	while (str[word_len] != c && str[word_len] != '\0')
+		word_len++;
+	if (!(tmp = (char *)malloc((word_len + 1) * sizeof(char))))
 	{
-		if (str[*k] == m)
-			*k += 1;
-		else
-		{
-			while (str[*k] != '\0' && str[*k] != m)
-			{
-				c++;
-				*k += 1;
-			}
-			*k += 1;
-			return (c);
-		}
+		ft_free2(tab, *nb_word);
+		*nb_word = 0;
+		return (strlen(str));
 	}
-	return (0);
-}
-
-static char		**ft_append(char **tab, char *str, int i, char m)
-{
-	int j;
-	int r;
-
+	tmp[word_len] = '\0';
 	j = 0;
-	while (str[i] != '\0')
+	while (k < word_len)
 	{
-		r = 0;
-		while (str[i] == m)
-			i++;
-		if (str[i] == '\0')
-			break ;
-		while (str[i] != m && str[i] != '\0')
-		{
-			tab[j][r] = str[i];
-			i++;
-			r++;
-			if (str[i] == '\0')
-				break ;
-		}
-		tab[j][r] = '\0';
+		tmp[j] = str[k++];
 		j++;
 	}
-	tab[j] = 0;
-	return (tab);
+	tab[*nb_word] = tmp;
+	*nb_word += 1;
+	return (word_len);
 }
 
-static void		ft_free(char **tab, int r)
+void	initial(int *i, int *j)
 {
-	while (r)
-	{
-		free(tab[r]);
-		r--;
-	}
-	free(tab);
+	*i = 0;
+	*j = 0;
 }
 
-char			**ft_split(char const *str, char c)
+char	**ft_split(char const *str, char c)
 {
-	char	**tab;
 	int		i;
-	int		*k;
-	int		p;
-	int		r;
+	char	**tab;
+	int		number_words;
 
-	r = 0;
-	i = 0;
-	p = 0;
-	k = &p;
+	initial(&i, &number_words);
 	if (!str)
-		return (0);
-	if (!(tab = malloc(sizeof(char*) * (tab_aloc((char *)str, c) + 1))))
-		return (0);
-	while (r < tab_aloc((char *)str, c))
-	{
-		if (!(tab[r] = malloc(sizeof(char) * (string((char *)str, k, c) + 1))))
-		{
-			ft_free(tab, r);
-			return (0);
-		}
-		r++;
-	}
-	ft_append(tab, (char *)str, i, c);
+		return (NULL);
+	while (str[i] != '\0')
+		if (str[i] != c)
+			i = ft_word(str, i, &number_words, c);
+		else
+			i++;
+	if (!(tab = (char **)malloc((number_words + 1) * sizeof(char *))))
+		return (NULL);
+	tab[number_words] = 0;
+	initial(&i, &number_words);
+	while (str[i] != '\0')
+		if (str[i] != c)
+			i += ft_add_word(tab, str + i, &number_words, c);
+		else
+			i++;
+	if (!number_words && !tab)
+		return (NULL);
 	return (tab);
 }

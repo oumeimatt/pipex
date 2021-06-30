@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 16:18:54 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 17:10:42 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 18:49:15 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	exec_first_cmd(char **argv, t_all *all, int fds[2])
 	int		in;
 	char	**split_arg;
 
-	in = open(argv[1],  O_RDONLY);
+	in = open(argv[1], O_RDONLY);
 	if (in == -1)
 	{
-		perror(argv[1] );
+		perror(argv[1]);
 		exit(0);
 	}
 	close(fds[0]);
@@ -47,7 +47,7 @@ void	exec_sec_cmd(char **argv, t_all *all, int fds[2])
 	out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (out == -1)
 	{
-		perror(argv[4] );
+		perror(argv[4]);
 		exit(1);
 	}
 	close(fds[1]);

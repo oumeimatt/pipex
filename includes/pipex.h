@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 16:50:45 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 17:17:03 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef	struct s_all
 	char	*path;
 	char	*cmd1_path;
 	char	*cmd2_path;
+	int		stats;
 }				t_all;
 
 

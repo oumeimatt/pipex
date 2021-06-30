@@ -1,0 +1,19 @@
+total 80
+drwxr-xr-x  18 oel-yous  2019    612 Jun 30 18:37 .
+drwx------   4 oel-yous  2019    136 Jun 30 14:44 ..
+drwxr-xr-x  13 oel-yous  2019    442 Jun 30 17:12 .git
+-rw-r--r--   1 oel-yous  2019   1528 Jun 30 16:42 Makefile
+-rw-r--r--   1 oel-yous  2019      7 Jun 29 14:43 README.md
+-rw-r--r--   1 oel-yous  2019    690 Jun 30 14:01 f
+-rw-r--r--   1 oel-yous  2019      0 Jun 30 16:00 g
+drwxr-xr-x   3 oel-yous  2019    102 Jun 29 15:14 includes
+-rw-r--r--   1 oel-yous  2019      0 Jun 30 17:00 kkd
+-rw-r--r--   1 oel-yous  2019      0 Jun 30 17:18 kkdss
+-rw-r--r--   1 oel-yous  2019      0 Jun 30 18:37 kks
+-rw-r--r--   1 oel-yous  2019   4311 Jun 30 13:02 leaks.c
+-rw-r--r--   1 oel-yous  2019   2422 Jun 30 12:20 main
+drwxr-xr-x  15 oel-yous  2019    510 Jun 30 18:37 mandatory
+-rw-r--r--   1 oel-yous  2019      0 Jun 30 17:04 ok
+-rwxr-xr-x   1 oel-yous  2019  14444 Jun 30 18:37 pipex
+drwxr-xr-x   3 oel-yous  2019    102 Jun 30 16:21 pipex.dSYM
+drwxr-xr-x  12 oel-yous  2019    408 Jun 30 12:25 pipex_bonus
