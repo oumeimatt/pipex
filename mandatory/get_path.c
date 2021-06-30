@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 13:09:58 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 14:56:54 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ char	*absolute_path(char *cmd, char **s_path)
 	free(tmp);
 	if (acc == 0)
 	{
+		free(cmd);
 		cmd = commande;
 		free(failed);
 	}
 	else
 	{
+		free(cmd);
 		free(commande);
 		cmd = failed;
 	}

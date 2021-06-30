@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 13:03:01 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 16:50:45 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,17 @@
 #define TRUE 0
 #define FALSE 1
 #define BUFFER_SIZE 100000
+
+typedef	struct s_all
+{
+	char	**cmd1;
+	char	**cmd2;
+	char	**split_p;
+	char	*path;
+	char	*cmd1_path;
+	char	*cmd2_path;
+}				t_all;
+
 
 typedef struct s_tokens
 {
@@ -52,7 +63,7 @@ t_tokens	*hd_tokens(char **argv);
 void	ft_pipe(t_tokens *tokens);
 
 
-
+t_all		*init_all(char **argv, char **envp);
 void    ft_add_node(t_tokens **head_Ref, char **cmd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
@@ -74,8 +85,8 @@ void	error_management(int argc, char **argv);
 t_tokens    *init_tokens(char **argv);
 void	ft_putendl_fd(char *s, int fd);
 void	cmd_not_found(char **argv, char *cmd1, char *cmd2);
-void	exec_first_cmd(char **argv, char **cmd, int fds[2]);
-void	exec_sec_cmd(char **argv, char **cmd, int fds[2]);
+void	exec_first_cmd(char **argv, t_all *all ,int fds[2]);
+void	exec_sec_cmd(char **argv, t_all *all, int fds[2]);
 
 
 void	last_cmd(int argc, char **argv, char **cmd, int fds[2]);
