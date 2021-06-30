@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/26 15:21:27 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 11:18:36 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void	exec_first_cmd(char **argv, char **cmd, int fds[2]);
 void	exec_sec_cmd(char **argv, char **cmd, int fds[2]);
 
 
-void	last_cmd(int argc, char **argv, char **cmd, t_tokens *tokens);
-void    exec_cmd(char **argv, char **cmd, t_tokens *tokens);
-void	first_cmd(char **argv, char **cmd, t_tokens *tokens);
+void	last_cmd(int argc, char **argv, char **cmd, int fds[2]);
+void    exec_cmd(char **argv, char **cmd, int i);
+void	first_cmd(char **argv, char **cmd, int pipes[2]);
 t_tokens	*init_tokens_2(int argc, char	**argv);
 
 #endif

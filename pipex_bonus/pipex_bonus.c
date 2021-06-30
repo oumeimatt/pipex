@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 17:12:49 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 12:14:25 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void    ft_add_node(t_tokens **head_Ref, char **cmd)
 	new_node = (t_tokens*) malloc(sizeof(t_tokens));
 	last = *head_Ref;
 	new_node->cmd = cmd;
-	// new_node->in = 0;
-	// new_node->out = 0;
+	new_node->in = -1;
+	new_node->out = -1;
 	new_node->next = NULL;
 	if (*head_Ref == NULL)
 	{
@@ -85,14 +85,14 @@ void	ft_pipe(t_tokens *tokens)
 
 	if (pipe(fds) == -1)
 		exit(EXIT_FAILURE);
-	while (tokens != NULL)
-	{
+	// while (tokens != NULL && tokens->next != NULL)
+	// {
 		tokens->in = fds[0];
 		tokens->out = fds[1];
-		tokens = tokens->next;
-	}
-	// tokens->next->in = tokens->in;
-	// tokens->out = fds[1];
+		// tokens = tokens->next;
+	// }
+	tokens->next->in = tokens->in;
+	tokens->out = tokens->out;
 }
 
 int     main(int argc, char ** argv, char **envp)
@@ -100,11 +100,11 @@ int     main(int argc, char ** argv, char **envp)
 	t_tokens	*tokens;
 	t_tokens	*tmp;
 	char		*path;
-	int 		start;
 	char		**split_path;
 	pid_t		pid;
 	int			i;
 	// int			stats;
+	int			pipes[2];
 
 	tokens = NULL;
 	bonus_args(argc, argv);
@@ -133,40 +133,34 @@ int     main(int argc, char ** argv, char **envp)
 			else
 				break;
 		}
-		start = 1;
-		i = 2;
-		while (i <  argc - 1)
+		pipe(pipes);
+		pid = fork();
+		if (pid == 0)
+			first_cmd(argv, tokens->cmd, pipes);
+		dup2(pipes[0], 0);
+		close(pipes[1]);
+		tokens = tokens->next;
+		i = 3;
+		while (i < argc - 2)
 		{
-			if (start == 1)
+			pipe(pipes);
+			pid =  fork();
+			if (pid < 0)
+				exit(1);
+			if (pid == 0)
 			{
-				ft_pipe(tokens);
-				pid = fork();
-				if (pid < 0)
-					exit(1);
-				if (pid == 0)
-					first_cmd(argv, tokens->cmd, tokens);
-				tokens = tokens->next;
-				start = 0;
-				i++;
+				dup2(pipes[1], 1);
+				exec_cmd(argv, tokens->cmd, i);
 			}
-			if (i == argc - 2)
-			{
-				pid = fork();
-				if (pid < 0)
-					exit(1);
-				if (pid == 0)
-					last_cmd(argc, argv, tokens->cmd, tokens);
-				close (tokens->in);
-				close(tokens->out);
-				break;
-			}
-			else
-			{
-				ft_pipe(tokens);
-				exec_cmd(argv, tokens->cmd, tokens);
-				tokens = tokens->next;
-				i++;
-			}
+			dup2(pipes[0], 0);
+			close(pipes[1]);
+			i++;
+			tokens = tokens->next;
 		}
+		pid = fork();
+		if (pid < 0)
+			exit(1);
+		if (pid == 0)
+			last_cmd(argc, argv, tokens->cmd, pipes);
 	}
 }

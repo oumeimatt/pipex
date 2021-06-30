@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 17:14:59 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 12:10:49 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_tokens	*init_tokens_2(int argc, char	**argv)
 	return (tokens);
 }
 
-void	first_cmd(char **argv, char **cmd, t_tokens *tokens)
+void	first_cmd(char **argv, char **cmd, int pipes[2])
 {
 	int		in;
 	char	**split_arg;
@@ -40,8 +40,7 @@ void	first_cmd(char **argv, char **cmd, t_tokens *tokens)
 		perror(argv[1] );
 		exit(0);
 	}
-	close(tokens->in);
-	dup2(tokens->out, 1);
+	dup2(pipes[1], 1);
 	dup2(in, 0);
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
@@ -52,34 +51,21 @@ void	first_cmd(char **argv, char **cmd, t_tokens *tokens)
 	}
 }
 
-void    exec_cmd(char **argv, char **cmd, t_tokens *tokens)
+void    exec_cmd(char **argv, char **cmd, int i)
 {
     char	**split_arg;
-    pid_t   pid;
 
-    pid = fork();
-	if (pid < 0)
-		exit(EXIT_FAILURE);
-	if (pid == 0)
-    {
-		
-        close(tokens->in);
-        dup2(tokens->out, 1);
-        if (execve(cmd[0], cmd, NULL) == -1)
-	    {
-	    	split_arg = ft_split(argv[2], ' ');
-	    	ft_putstr_fd("pipex: command not found: ", 2);
-	    	ft_putendl_fd(split_arg[0], 2);	
-	    	exit(0);
-	    }
-    }
-    // if (tokens->out != 1)
-    //     close(tokens->out);
-    // if (tokens->in != 0)
-    //     close(tokens->in);
+    if (execve(cmd[0], cmd, NULL) == -1)
+	{
+		split_arg = ft_split(argv[i], ' ');
+		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putendl_fd(split_arg[0], 2);	
+		exit(0);
+	}
+
 }
 
-void	last_cmd(int argc, char **argv, char **cmd, t_tokens *tokens)
+void	last_cmd(int argc, char **argv, char **cmd, int pipes[2])
 {
 	int		out;
 	char	**split_arg;
@@ -90,8 +76,7 @@ void	last_cmd(int argc, char **argv, char **cmd, t_tokens *tokens)
 		perror(argv[argc - 1] );
 		exit(1);
 	}
-	close(tokens->out);
-	dup2(tokens->in, 0);
+	dup2(pipes[0], 0);
 	dup2(out, 1); 
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{

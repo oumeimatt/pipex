@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 16:23:52 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/29 17:51:09 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int main(int argc, char **argv, char **envp)
 	t_tokens    *tokens;
 	char		*path;
 	char		**split_path;
-	// int			stats;
+	int			stats;
 	
 	error_management(argc, argv);
 	tokens = init_tokens(argv);
