@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 16:18:54 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 12:48:15 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	exec_first_cmd(char **argv, char **cmd, int fds[2])
 		ft_putendl_fd(split_arg[0], 2);	
 		exit(0);
 	}
+	free_strtab(cmd);
 }
 
 void	exec_sec_cmd(char **argv, char **cmd, int fds[2])
@@ -56,4 +57,5 @@ void	exec_sec_cmd(char **argv, char **cmd, int fds[2])
 		ft_putendl_fd(split_arg[0], 2);
 		exit(127);
 	}
+	free_strtab(cmd);
 }

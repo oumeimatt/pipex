@@ -6,7 +6,7 @@
 #    By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 17:51:17 by oel-yous          #+#    #+#              #
-#    Updated: 2021/06/29 15:51:24 by oel-yous         ###   ########.fr        #
+#    Updated: 2021/06/30 13:03:18 by oel-yous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC			= gcc
 
 CFLAGS		= -Wall -Wextra -Werror
 
-SRCS		= 	mandatory/main.c
+SRCS		= 	mandatory/main.c leaks.c
 
 OBJS 		= $(SRCS:.c=.o)
 

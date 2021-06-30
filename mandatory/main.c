@@ -6,80 +6,67 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 17:51:09 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 13:16:43 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void    ft_add_node(t_tokens **head_Ref, char **cmd)
+void	free_strtab(char **tab)
 {
-	t_tokens    *new_node;
-	t_tokens    *last;
+	int	i;
 
-	new_node = (t_tokens*) malloc(sizeof(t_tokens));
-	last = *head_Ref;
-	new_node->cmd = cmd;
-	new_node->next = NULL;
-	if (*head_Ref == NULL)
+	i = 0;
+	while (tab[i])
 	{
-		*head_Ref = new_node;
-		return ;
+		free(tab[i]);
+		tab[i++] = NULL;
 	}
-	while (last->next != NULL)
-		last = last->next;
-	last->next = new_node;
-	return ;
+	free(tab);
+	tab = NULL;
 }
 
-t_tokens    *init_tokens(char **argv)
-{
-	t_tokens	*tokens;
-	char		**cmd1;
-	char		**cmd2;
-
-	tokens = NULL;
-	cmd1 = ft_split(argv[2], ' ');
-	ft_add_node(&tokens, cmd1);
-	cmd2 = ft_split(argv[3], ' ');
-	ft_add_node(&tokens, cmd2);
-	return (tokens);
-}
 int main(int argc, char **argv, char **envp)
 {
 	int         fds[2];
-	pid_t       pids[2];
-	t_tokens    *tokens;
+	pid_t       pid;
+	char		**cmd1;
+	char		**cmd2;
 	char		*path;
 	char		**split_path;
 	int			stats;
 	
 	error_management(argc, argv);
-	tokens = init_tokens(argv);
+	cmd1 = ft_split(argv[2], ' ');
+	cmd2 = ft_split(argv[3], ' ');
 	path = get_path(envp);
 	split_path = ft_split(path, ':');
-	tokens->cmd[0] = absolute_path(tokens->cmd[0], split_path);
-	tokens->next->cmd[0] = absolute_path(tokens->next->cmd[0], split_path);
+	cmd1[0] = absolute_path(cmd1[0], split_path);
+	cmd2[0] = absolute_path(cmd2[0], split_path);
 	if (pipe(fds) == -1)
 		exit(EXIT_FAILURE);	
-	pids[0] = fork();
-	if(pids[0] == -1)
+	pid = fork();
+	if(pid == -1)
 		exit(EXIT_FAILURE);
-	if(pids[0] == 0)
-		exec_first_cmd(argv, tokens->cmd, fds);
-	pids[1] = fork();
-	if(pids[1] == -1)
+	if(pid == 0)
+		exec_first_cmd(argv, cmd1, fds);
+	free_strtab(cmd1);
+	pid = fork();
+	if(pid == -1)
 		exit(EXIT_FAILURE);
-	if(pids[1] == 0)
-		exec_sec_cmd(argv, tokens->next->cmd, fds);
+	if(pid == 0)
+		exec_sec_cmd(argv, cmd2, fds);
+	free_strtab(cmd2);
+	free_strtab(split_path);
 	close (fds[0]);
 	close(fds[1]);
 	while (wait(&stats) > 0)
 	{
 		printf("exit status = %d\n", WEXITSTATUS(stats));
- 		if (WIFEXITED(stats))
-		 	return (WEXITSTATUS(stats));
+ 		// if (WIFEXITED(stats))
+		//  	return (WEXITSTATUS(stats));
 	}
+	check_leaks();
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/06/30 13:09:58 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char    *get_path(char **envp)
 	while (envp[i] !=  NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH", 4) == TRUE)
-			line = ft_strdup(envp[i]);
+			line = envp[i];
 		i++;
 	}
 	return (line);
@@ -54,13 +54,17 @@ char	*absolute_path(char *cmd, char **s_path)
 		acc = access(commande, F_OK);
 		i++;
 	}
+	free(tmp);
 	if (acc == 0)
 	{
 		cmd = commande;
 		free(failed);
 	}
 	else
+	{
+		free(commande);
 		cmd = failed;
+	}
 	return (cmd);
 }
 
