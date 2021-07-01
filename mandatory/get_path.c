@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 18:53:19 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 11:20:00 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*absolute_path(char *cmd, char **s_path)
 		tmp = ft_strjoin(s_path[i], "/");
 		commande = ft_strjoin(tmp, cmd);
 		acc = access(commande, F_OK);
-		if (acc != 0)
+		if (acc != 0 && s_path[i + 1] != NULL)
 			free(commande);
 		free(tmp);
 	}

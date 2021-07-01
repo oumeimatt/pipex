@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 17:26:24 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 11:21:49 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ t_all	*init_all(char **argv, char **envp)
 	tmp->cmd2 = ft_split(argv[3], ' ');
 	tmp->path = get_path(envp);
 	tmp->split_p = ft_split(tmp->path, ':');
-	tmp->cmd1_path = absolute_path(tmp->cmd1[0], tmp->split_p);
+	if (strcmp(argv[2], "") == 0)
+		tmp->cmd1_path = NULL;
+	else
+		tmp->cmd1_path = absolute_path(tmp->cmd1[0], tmp->split_p);
 	tmp->cmd2_path = absolute_path(tmp->cmd2[0], tmp->split_p);
 	return (tmp);
 }

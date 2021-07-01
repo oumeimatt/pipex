@@ -6,7 +6,7 @@
 #    By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 17:51:17 by oel-yous          #+#    #+#              #
-#    Updated: 2021/06/30 18:38:20 by oel-yous         ###   ########.fr        #
+#    Updated: 2021/07/01 11:37:26 by oel-yous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= pipex
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror
 
 SRCS		= 	mandatory/main.c
 

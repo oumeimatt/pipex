@@ -1,10 +1,12 @@
 Makefile
 README.md
 includes
+k
 leaks.c
 main
 mandatory
 ok
+okk
 pipex
 pipex.dSYM
 pipex_bonus

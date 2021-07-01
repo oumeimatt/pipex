@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 15:16:34 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 18:37:28 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 11:09:07 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*str;
 	size_t	len;
 
-	// if (!s1 && s2)
-	// 	return ((char *)s1);
-	// if (s1 && !s2)
-	// 	return ((char *)s2);
+	if (!s1 && s2)
+		return ((char *)s1);
+	if (s1 && !s2)
+		return ((char *)s2);
 	len = ft_strlen((char *)s1) + ft_strlen((char *)s2);
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (str == NULL)
