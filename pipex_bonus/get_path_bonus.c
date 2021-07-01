@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 16:11:30 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 19:22:30 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void    bonus_args(int argc, char **argv)
 		while (i < argc - 2)
 		{
 			if (strcmp(argv[i], "") == TRUE)
-				ft_putstr_fd("pipex : command not found\n", 2);
+				ft_putstr_fd("pipex: :command not found\n", 2);
 			i++;
 		}
 		if (strcmp(argv[argc - 2], "") == TRUE)

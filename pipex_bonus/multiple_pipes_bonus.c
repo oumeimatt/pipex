@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:24 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 18:34:22 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 18:47:42 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int		multiple_pipes(int argc, char **argv, t_tokens *tokens)
 {
 	int		stats;
 	int		pipes[2];
-	// pid_t	pid1;
 	pid_t	pid;
 	int		count;
 	int		i = -1;
@@ -60,7 +59,6 @@ int		multiple_pipes(int argc, char **argv, t_tokens *tokens)
 		while (++i < count - 2)
 			tokens = tokens->next;
 	}
-	printf("last === %s\n", tokens->cmd[0]);
 	pid = fork();
 	if (pid < 0)
 		exit(1);
@@ -71,4 +69,3 @@ int		multiple_pipes(int argc, char **argv, t_tokens *tokens)
 			return (WEXITSTATUS(stats));
 	return (stats);
 }
-	// return (0);

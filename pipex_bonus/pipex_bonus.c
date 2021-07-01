@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 18:29:03 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 19:33:22 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,24 @@ int     main(int argc, char ** argv, char **envp)
 	{
 		tokens = init_tokens_2(argc, argv);
 		tmp = tokens;
+		int i = 2;
 		while (tmp != NULL)
 		{
-			tmp->cmd[0] = absolute_path(tmp->cmd[0], split_path);
+			if (strcmp(argv[i], "") == 0)
+			{
+				tmp->cmd[0] = NULL;
+				i++;
+			}
+			else
+				tmp->cmd[0] = absolute_path(tmp->cmd[0], split_path);
 			if (tmp->next != NULL)
 				tmp = tmp->next;
 			else
 				break;
 		}
 		stats = multiple_pipes(argc, argv , tokens);
-		printf("stats ==== %d\n", stats);
 		return(stats);
 	}
- 	if (WIFEXITED(stats))
-		return (WEXITSTATUS(stats));
+ 	// if (WIFEXITED(stats))
+	// 	return (WEXITSTATUS(stats));
 }

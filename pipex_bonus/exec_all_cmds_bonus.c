@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 17:53:28 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 19:39:03 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,13 @@ void	first_cmd(char **argv, char **cmd, int pipes[2])
 	// close(in);
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
-		split_arg = ft_split(argv[2], ' ');
-		ft_putstr_fd("pipex: ", 2);
-		ft_putstr_fd(split_arg[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if (strcmp(argv[2], ""))
+		{
+			split_arg = ft_split(argv[2], ' ');
+			ft_putstr_fd("pipex: ", 2);
+			ft_putstr_fd(split_arg[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
 		exit(0);
 	}
 }
@@ -60,10 +63,13 @@ void    exec_cmd(char **argv, char **cmd, int i)
 
     if (execve(cmd[0], cmd, NULL) == -1)
 	{
-		split_arg = ft_split(argv[i], ' ');
-		ft_putstr_fd("pipex: ", 2);
-		ft_putstr_fd(split_arg[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		if (strcmp(argv[i], ""))
+		{
+			split_arg = ft_split(argv[i], ' ');
+			ft_putstr_fd("pipex: ", 2);
+			ft_putstr_fd(split_arg[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
 		exit(0);
 	}
 
@@ -85,7 +91,7 @@ void	last_cmd(int argc, char **argv, char **cmd, int pipes[2])
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[argc - 2], ' ');
-		ft_putstr_fd("pipex123: ", 2);
+		ft_putstr_fd("pipex: ", 2);
 		ft_putstr_fd(split_arg[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
