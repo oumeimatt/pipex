@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 12:47:20 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 16:11:30 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	*absolute_path(char *cmd, char **s_path)
 void    bonus_args(int argc, char **argv)
 {
 	int     i;
+	int		out;
 
 	if (strcmp(argv[1], "here_doc\0") == TRUE)
 	{
@@ -109,6 +110,15 @@ void    bonus_args(int argc, char **argv)
 			ft_putstr_fd("need more  arguments\n", 2);
 			exit(1);
 		}
+		if (strcmp(argv[1], "") == TRUE)
+		{
+			ft_putstr_fd("pipex: : No such file or directory\n", 2);
+			if (strcmp(argv[argc - 1], "") == TRUE)
+			{
+				ft_putstr_fd("pipex: : No such file or directory\n", 2);
+				exit(1);
+			}
+		}
 		i = 2;
 		while (i < argc - 2)
 		{
@@ -118,7 +128,9 @@ void    bonus_args(int argc, char **argv)
 		}
 		if (strcmp(argv[argc - 2], "") == TRUE)
 		{
-			ft_putstr_fd(" : command not found\n", 2);
+			ft_putstr_fd("pipex: : command not found\n", 2);
+			out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			close(out);
 			exit(127);
 		}
 	}

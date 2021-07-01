@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:24 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 14:59:32 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 16:12:51 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	multiple_pipes(int argc, char **argv, t_tokens *tokens)
 		last_cmd(argc, argv, tokens->cmd, pipes);
 	while (wait(&stats) > 0)
 	{
+		// while (1)
+		// {};
  		if (WIFEXITED(stats))
 	 		return (WEXITSTATUS(stats));
 	}

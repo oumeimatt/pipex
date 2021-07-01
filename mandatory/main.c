@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 14:25:57 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 16:08:31 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	exec_command(t_all *all, char **argv)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 		exec_first_cmd(argv, all, fds);
+	close(fds[1]);
 	wait(&all->stats);
 	pid = fork();
 	if (pid == -1)
