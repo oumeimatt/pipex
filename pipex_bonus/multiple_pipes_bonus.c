@@ -6,13 +6,13 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:24 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 13:14:09 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:59:32 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2])
+int    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2])
 {
 	int     i;
 	pid_t   pid;
@@ -36,6 +36,7 @@ void    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2])
 		i++;
 		tokens = tokens->next;
 	}
+	return (stats);
 }
 
 int	multiple_pipes(int argc, char **argv, t_tokens *tokens)
@@ -52,7 +53,8 @@ int	multiple_pipes(int argc, char **argv, t_tokens *tokens)
 	dup2(pipes[0], 0);
 	close(pipes[1]);
 	tokens = tokens->next;
-	pipes_loop(argc, argv, tokens, pipes);
+	stats = pipes_loop(argc, argv, tokens, pipes);
+	tokens = tokens->next;
 	pid = fork();
 	if (pid < 0)
 		exit(1);

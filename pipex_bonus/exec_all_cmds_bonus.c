@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   multiple_pipes_bonus.c                             :+:      :+:    :+:   */
+/*   exec_all_cmds_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 12:10:49 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:57:42 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void    exec_cmd(char **argv, char **cmd, int i)
     if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[i], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("pipex1: command not found: ", 2);
 		ft_putendl_fd(split_arg[0], 2);	
 		exit(0);
 	}
@@ -81,8 +81,8 @@ void	last_cmd(int argc, char **argv, char **cmd, int pipes[2])
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[argc - 2], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(split_arg[0], 2);
+		ft_putstr_fd("pipex12: command not found: ", 2);
 		exit(127);
 	}
 }

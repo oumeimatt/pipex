@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 11:20:00 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:26:21 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char	*absolute_path(char *cmd, char **s_path)
 
 void	error_management(int argc, char **argv)
 {
+	int 	out;
 	if (argc != 5)
 	{
 		ft_putstr_fd("Error : need 5 arguments\n", 2);
@@ -101,7 +102,9 @@ void	error_management(int argc, char **argv)
 		ft_putstr_fd(" : command not found\n", 2);
 	if (strcmp(argv[3], "") == TRUE)
 	{
-		ft_putstr_fd(" : command not found\n", 2);
+		ft_putstr_fd("pipex : command not found\n", 2);
+		out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		close(out);
 		exit(127);
 	}
 }

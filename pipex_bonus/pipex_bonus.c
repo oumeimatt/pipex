@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 13:12:44 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:14:33 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,7 @@ int     main(int argc, char ** argv, char **envp)
 	t_tokens	*tmp;
 	char		*path;
 	char		**split_path;
-	// pid_t		pid;
-	// int			i;
-	// int			stats;
-	// int			pipes[2];
-
+	
 	tokens = NULL;
 	bonus_args(argc, argv);
 	path = get_path(envp);

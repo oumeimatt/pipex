@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 16:18:54 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 11:37:47 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:23:51 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_first_cmd(char **argv, t_all *all, int fds[2])
 		if (strcmp(argv[2], ""))
 		{
 			split_arg = ft_split(argv[2], ' ');
-			ft_putstr_fd("pipex: command not found: ", 2);
+			ft_putstr_fd("pipex3: command not found: ", 2);
 			ft_putendl_fd(split_arg[0], 2);
 			free_strtab(split_arg);
 		}
@@ -58,7 +58,7 @@ void	exec_sec_cmd(char **argv, t_all *all, int fds[2])
 	if (execve(all->cmd2_path, all->cmd2, NULL) == -1)
 	{
 		split_arg = ft_split(argv[3], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("pipex4: command not found: ", 2);
 		ft_putendl_fd(split_arg[0], 2);
 		free_strtab(split_arg);
 		exit(127);
