@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 12:14:25 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 13:12:44 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,40 +34,6 @@ void    ft_add_node(t_tokens **head_Ref, char **cmd)
 	return ;
 }
 
-void    bonus_args(int argc, char **argv)
-{
-	int     i;
-
-	if (strcmp(argv[1], "here_doc\0") == TRUE)
-	{
-		if (argc != 6)
-		{
-			ft_putstr_fd("too much arguments \n", 2);
-			exit(1);
-		}
-	}
-	else
-	{
-		if (argc < 5)
-		{
-			ft_putstr_fd("need more  arguments\n", 2);
-			exit(1);
-		}
-		i = 2;
-		while (i < argc - 2)
-		{
-			if (strcmp(argv[i], "") == TRUE)
-				ft_putstr_fd(" : command not found\n", 2);
-			i++;
-		}
-		if (strcmp(argv[argc - 2], "") == TRUE)
-		{
-			ft_putstr_fd(" : command not found\n", 2);
-			exit(127);
-		}
-	}
-}
-
 void print_list(t_tokens *head) 
 {
     t_tokens	*current_node = head;
@@ -85,14 +51,12 @@ void	ft_pipe(t_tokens *tokens)
 
 	if (pipe(fds) == -1)
 		exit(EXIT_FAILURE);
-	// while (tokens != NULL && tokens->next != NULL)
-	// {
+	while (tokens != NULL && tokens->next != NULL)
+	{
 		tokens->in = fds[0];
 		tokens->out = fds[1];
-		// tokens = tokens->next;
-	// }
-	tokens->next->in = tokens->in;
-	tokens->out = tokens->out;
+		tokens = tokens->next;
+	}
 }
 
 int     main(int argc, char ** argv, char **envp)
@@ -101,10 +65,10 @@ int     main(int argc, char ** argv, char **envp)
 	t_tokens	*tmp;
 	char		*path;
 	char		**split_path;
-	pid_t		pid;
-	int			i;
+	// pid_t		pid;
+	// int			i;
 	// int			stats;
-	int			pipes[2];
+	// int			pipes[2];
 
 	tokens = NULL;
 	bonus_args(argc, argv);
@@ -113,10 +77,13 @@ int     main(int argc, char ** argv, char **envp)
 	if (strcmp(argv[1], "here_doc\0") == TRUE)
 	{
 		tokens = hd_tokens(argv);
-		if (strcmp(argv[4], "") == TRUE)
+		if (strcmp(argv[4], "") == TRUE || strcmp(argv[3], "") == TRUE)
 		{
 			read_line(tokens, split_path, argv);
-			ft_putstr_fd(" : command not found\n", 2);
+			if (strcmp(argv[3], "") == TRUE)
+				ft_putstr_fd("pipex : command not found\n", 2);
+			if (strcmp(argv[4], "") == TRUE)
+				ft_putstr_fd("pipex : command not found\n", 2);
 			exit(127);
 		}
 		return (here_doc(tokens, argv, split_path));
@@ -133,34 +100,42 @@ int     main(int argc, char ** argv, char **envp)
 			else
 				break;
 		}
-		pipe(pipes);
-		pid = fork();
-		if (pid == 0)
-			first_cmd(argv, tokens->cmd, pipes);
-		dup2(pipes[0], 0);
-		close(pipes[1]);
-		tokens = tokens->next;
-		i = 3;
-		while (i < argc - 2)
-		{
-			pipe(pipes);
-			pid =  fork();
-			if (pid < 0)
-				exit(1);
-			if (pid == 0)
-			{
-				dup2(pipes[1], 1);
-				exec_cmd(argv, tokens->cmd, i);
-			}
-			dup2(pipes[0], 0);
-			close(pipes[1]);
-			i++;
-			tokens = tokens->next;
-		}
-		pid = fork();
-		if (pid < 0)
-			exit(1);
-		if (pid == 0)
-			last_cmd(argc, argv, tokens->cmd, pipes);
+		return (multiple_pipes(argc, argv , tokens));
+	// 	pipe(pipes);
+	// 	pid = fork();
+	// 	if (pid == 0)
+	// 		first_cmd(argv, tokens->cmd, pipes);
+	// 	while(wait(&stats) > 0);
+	// 	dup2(pipes[0], 0);
+	// 	close(pipes[1]);
+	// 	tokens = tokens->next;
+		// i = 3;
+		// while (i < argc - 2)
+		// {
+		// 	pipe(pipes);
+		// 	pid =  fork();
+		// 	if (pid < 0)
+		// 		exit(1);
+		// 	if (pid == 0)
+		// 	{
+		// 		dup2(pipes[1], 1);
+		// 		exec_cmd(argv, tokens->cmd, i);
+		// 	}
+		// 	while (wait(&stats) > 0)
+		// 	dup2(pipes[0], 0);
+		// 	close(pipes[1]);
+		// 	i++;
+		// 	tokens = tokens->next;
+		// }
+	// 	pid = fork();
+	// 	if (pid < 0)
+	// 		exit(1);
+	// 	if (pid == 0)
+	// 		last_cmd(argc, argv, tokens->cmd, pipes);
+	// 	while (wait(&stats) > 0)
+	// 	{
+ 	// 		if (WIFEXITED(stats))
+	// 	 		return (WEXITSTATUS(stats));
+	// 	}
 	}
 }

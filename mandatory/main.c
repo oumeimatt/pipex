@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 11:21:49 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 11:39:55 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	exec_command(t_all *all, char **argv)
 	free_all(all);
 	while (wait(&all->stats) > 0)
 	{
-		while (1);
 		if (WIFEXITED(all->stats))
 			return (WEXITSTATUS(all->stats));
 	}

@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 17:17:03 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 13:12:15 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,8 @@ void	first_cmd(char **argv, char **cmd, int pipes[2]);
 t_tokens	*init_tokens_2(int argc, char	**argv);
 void	free_strtab(char **tab);
 void check_leaks();
+void    bonus_args(int argc, char **argv);
+int	multiple_pipes(int argc, char **argv, t_tokens *tokens);
+void    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2]);
 
 #endif

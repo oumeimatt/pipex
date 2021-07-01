@@ -6,7 +6,7 @@
 #    By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/29 15:22:32 by oel-yous          #+#    #+#              #
-#    Updated: 2021/06/29 15:53:48 by oel-yous         ###   ########.fr        #
+#    Updated: 2021/07/01 12:57:16 by oel-yous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS		=  ft_split_bonus.c \
 				gnl_bonus.c \
 				gnl_utils_bonus.c \
 				multiple_pipes_bonus.c \
+				exec_all_cmds_bonus.c \
 				here_doc_bonus.c \
 				get_path_bonus.c \
 				utils_bonus.c \

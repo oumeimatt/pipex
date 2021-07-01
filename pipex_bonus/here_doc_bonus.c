@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 13:59:49 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:41:13 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 12:50:51 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	exec_cmd1(char **argv, char **cmd, t_tokens *tokens)
 	{
 		split_arg = ft_split(argv[3], ' ');
 		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(split_arg[0], 2);	
+		ft_putendl_fd(split_arg[0], 2);
 		exit(0);
 	}
 }
@@ -118,7 +118,6 @@ int		here_doc(t_tokens *tokens, char **argv, char **split_path)
 		exec_cmd2(argv, tokens->next->cmd, tokens);
 	close (tokens->in);
 	close(tokens->out);
-    while (1);
 	while (wait(&stats) > 0)
 	{
  		if (WIFEXITED(stats))

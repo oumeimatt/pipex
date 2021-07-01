@@ -5,84 +5,63 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/30 12:10:49 by oel-yous         ###   ########.fr       */
+/*   Created: 2021/07/01 12:57:24 by oel-yous          #+#    #+#             */
+/*   Updated: 2021/07/01 13:14:09 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-t_tokens	*init_tokens_2(int argc, char	**argv)
+void    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2])
 {
-	t_tokens	*tokens;
-	char		**cmd;
-	int			i;
+	int     i;
+	pid_t   pid;
+	int		stats;
 
-	i = 2;
-	tokens = NULL;
-	while (i < argc - 1)
+	i = 3;
+	while (i < argc - 2)
 	{
-		cmd = ft_split(argv[i], ' ');
-		ft_add_node(&tokens, cmd);
+		pipe(pipes);
+		pid =  fork();
+		if (pid < 0)
+			exit(1);
+		if (pid == 0)
+		{
+			dup2(pipes[1], 1);
+			exec_cmd(argv, tokens->cmd, i);
+		}
+		while (wait(&stats) > 0)
+		dup2(pipes[0], 0);
+		close(pipes[1]);
 		i++;
-	}
-	return (tokens);
-}
-
-void	first_cmd(char **argv, char **cmd, int pipes[2])
-{
-	int		in;
-	char	**split_arg;
-
-	in = open(argv[1],  O_RDONLY);
-	if (in == -1)
-	{
-		perror(argv[1] );
-		exit(0);
-	}
-	dup2(pipes[1], 1);
-	dup2(in, 0);
-	if (execve(cmd[0], cmd, NULL) == -1)
-	{
-		split_arg = ft_split(argv[2], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(split_arg[0], 2);	
-		exit(0);
+		tokens = tokens->next;
 	}
 }
 
-void    exec_cmd(char **argv, char **cmd, int i)
+int	multiple_pipes(int argc, char **argv, t_tokens *tokens)
 {
-    char	**split_arg;
+	int		stats;
+	int		pipes[2];
+	pid_t	pid;
 
-    if (execve(cmd[0], cmd, NULL) == -1)
-	{
-		split_arg = ft_split(argv[i], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(split_arg[0], 2);	
-		exit(0);
-	}
-
-}
-
-void	last_cmd(int argc, char **argv, char **cmd, int pipes[2])
-{
-	int		out;
-	char	**split_arg;
-
-	out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (out == -1)
-	{
-		perror(argv[argc - 1] );
-		exit(1);
-	}
+	pipe(pipes);
+	pid = fork();
+	if (pid == 0)
+		first_cmd(argv, tokens->cmd, pipes);
+	while(wait(&stats) > 0);
 	dup2(pipes[0], 0);
-	dup2(out, 1); 
-	if (execve(cmd[0], cmd, NULL) == -1)
+	close(pipes[1]);
+	tokens = tokens->next;
+	pipes_loop(argc, argv, tokens, pipes);
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	if (pid == 0)
+		last_cmd(argc, argv, tokens->cmd, pipes);
+	while (wait(&stats) > 0)
 	{
-		split_arg = ft_split(argv[argc - 2], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(split_arg[0], 2);
-		exit(127);
+ 		if (WIFEXITED(stats))
+	 		return (WEXITSTATUS(stats));
 	}
+	return (0);
 }
