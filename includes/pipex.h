@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 14:34:58 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 16:41:30 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ void    bonus_args(int argc, char **argv);
 int	multiple_pipes(int argc, char **argv, t_tokens *tokens);
 int    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2]);
 
+void	exec_command(t_all *all, char **argv);
 #endif

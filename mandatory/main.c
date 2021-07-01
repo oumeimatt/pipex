@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:10 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 16:08:31 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 16:41:52 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,34 +56,28 @@ void	free_all(t_all *all)
 	free(all->cmd2_path);
 }
 
-int	exec_command(t_all *all, char **argv)
+void	exec_command(t_all *all, char **argv)
 {
 	int		fds[2];
-	pid_t	pid;
+	pid_t	pid[2];
 
 	if (pipe(fds) == -1)
 		exit(EXIT_FAILURE);
-	pid = fork();
-	if (pid == -1)
+	pid[0] = fork();
+	if (pid[0] == -1)
 		exit(EXIT_FAILURE);
-	if (pid == 0)
+	if (pid[0] == 0)
 		exec_first_cmd(argv, all, fds);
-	close(fds[1]);
-	wait(&all->stats);
-	pid = fork();
-	if (pid == -1)
+	pid[1] = fork();
+	if (pid[1] == -1)
 		exit(EXIT_FAILURE);
-	if (pid == 0)
+	if (pid[1] == 0)
 		exec_sec_cmd(argv, all, fds);
 	close (fds[0]);
 	close(fds[1]);
 	free_all(all);
-	while (wait(&all->stats) > 0)
-	{
-		if (WIFEXITED(all->stats))
-			return (WEXITSTATUS(all->stats));
-	}
-	return (0);
+	waitpid(pid[0], &all->stats, 0);
+	waitpid(pid[1], &all->stats, 0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -92,5 +86,8 @@ int	main(int argc, char **argv, char **envp)
 
 	error_management(argc, argv);
 	all = init_all(argv, envp);
-	return (exec_command(all, argv));
+	exec_command(all, argv);
+	if (WIFEXITED(all->stats))
+		return (WEXITSTATUS(all->stats));
+	return (0);
 }
