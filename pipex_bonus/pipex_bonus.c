@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 14:14:33 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 18:29:03 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ int     main(int argc, char ** argv, char **envp)
 	t_tokens	*tokens;
 	t_tokens	*tmp;
 	char		*path;
+	int			stats = 0;
 	char		**split_path;
-	
+
 	tokens = NULL;
 	bonus_args(argc, argv);
 	path = get_path(envp);
@@ -82,7 +83,7 @@ int     main(int argc, char ** argv, char **envp)
 				ft_putstr_fd("pipex : command not found\n", 2);
 			exit(127);
 		}
-		return (here_doc(tokens, argv, split_path));
+		stats = here_doc(tokens, argv, split_path, stats);
 	}
 	else
 	{
@@ -96,42 +97,10 @@ int     main(int argc, char ** argv, char **envp)
 			else
 				break;
 		}
-		return (multiple_pipes(argc, argv , tokens));
-	// 	pipe(pipes);
-	// 	pid = fork();
-	// 	if (pid == 0)
-	// 		first_cmd(argv, tokens->cmd, pipes);
-	// 	while(wait(&stats) > 0);
-	// 	dup2(pipes[0], 0);
-	// 	close(pipes[1]);
-	// 	tokens = tokens->next;
-		// i = 3;
-		// while (i < argc - 2)
-		// {
-		// 	pipe(pipes);
-		// 	pid =  fork();
-		// 	if (pid < 0)
-		// 		exit(1);
-		// 	if (pid == 0)
-		// 	{
-		// 		dup2(pipes[1], 1);
-		// 		exec_cmd(argv, tokens->cmd, i);
-		// 	}
-		// 	while (wait(&stats) > 0)
-		// 	dup2(pipes[0], 0);
-		// 	close(pipes[1]);
-		// 	i++;
-		// 	tokens = tokens->next;
-		// }
-	// 	pid = fork();
-	// 	if (pid < 0)
-	// 		exit(1);
-	// 	if (pid == 0)
-	// 		last_cmd(argc, argv, tokens->cmd, pipes);
-	// 	while (wait(&stats) > 0)
-	// 	{
- 	// 		if (WIFEXITED(stats))
-	// 	 		return (WEXITSTATUS(stats));
-	// 	}
+		stats = multiple_pipes(argc, argv , tokens);
+		printf("stats ==== %d\n", stats);
+		return(stats);
 	}
+ 	if (WIFEXITED(stats))
+		return (WEXITSTATUS(stats));
 }

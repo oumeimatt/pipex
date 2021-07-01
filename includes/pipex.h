@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 16:41:30 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 18:02:40 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ char	*ft_strchr(const char *s, int c);
 // char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		get_next_line(int fd, char **line);
+int	count_list(t_tokens *head);
 
 // here_doc 
 void	exec_cmd1(char **argv, char **cmd, t_tokens *tokens);
 void	exec_cmd2(char **argv, char **cmd, t_tokens *tokens);
-int		here_doc(t_tokens *tokens, char **argv, char **split_path);
+int		here_doc(t_tokens *tokens, char **argv, char **split_path, int stats);
 void	read_line(t_tokens *tokens, char **split_path, char **argv);
 t_tokens	*hd_tokens(char **argv);
 void	ft_pipe(t_tokens *tokens);
@@ -97,8 +98,8 @@ t_tokens	*init_tokens_2(int argc, char	**argv);
 void	free_strtab(char **tab);
 void check_leaks();
 void    bonus_args(int argc, char **argv);
-int	multiple_pipes(int argc, char **argv, t_tokens *tokens);
-int    pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2]);
+int		multiple_pipes(int argc, char **argv, t_tokens *tokens);
+void   pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2]);
 
 void	exec_command(t_all *all, char **argv);
 #endif

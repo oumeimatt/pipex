@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 13:59:49 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 12:50:51 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/01 17:13:14 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	exec_cmd1(char **argv, char **cmd, t_tokens *tokens)
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[3], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("pipex1: command not found: ", 2);
 		ft_putendl_fd(split_arg[0], 2);
 		exit(0);
 	}
@@ -91,37 +91,33 @@ void	exec_cmd2(char **argv, char **cmd, t_tokens *tokens)
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		split_arg = ft_split(argv[4], ' ');
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(split_arg[0], 2);
+		ft_putstr_fd("pipex: ", 2);
+		ft_putstr_fd(split_arg[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
 }
 
-int		here_doc(t_tokens *tokens, char **argv, char **split_path)
+int		here_doc(t_tokens *tokens, char **argv, char **split_path, int stats)
 {
-	int		stats;
-	int		pid;
+	int		pid[2];
 
 	read_line(tokens, split_path, argv);
     
 	ft_pipe(tokens);
-	pid = fork();
-	if(pid == -1)
+	pid[0] = fork();
+	if(pid[0] == -1)
 		exit(EXIT_FAILURE);
-	if(pid == 0)
+	if(pid[0] == 0)
 		exec_cmd1(argv, tokens->cmd, tokens);
-	while (wait(&stats) > 0);
-	pid = fork();
-	if(pid == -1)
+	pid[1] = fork();
+	if(pid[1] == -1)
 		exit(EXIT_FAILURE);
-	if(pid == 0)
+	if(pid[1] == 0)
 		exec_cmd2(argv, tokens->next->cmd, tokens);
 	close (tokens->in);
 	close(tokens->out);
-	while (wait(&stats) > 0)
-	{
- 		if (WIFEXITED(stats))
-	 		return (WEXITSTATUS(stats));
-	}
-	return (0);
+	waitpid(pid[0], &stats, 0);
+	waitpid(pid[1], &stats, 0);
+	return (stats);
 }
