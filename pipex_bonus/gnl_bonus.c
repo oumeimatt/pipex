@@ -6,72 +6,94 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 10:57:53 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:41:26 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 14:26:32 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-static int		ft_free(char **s1, int ret)
+int	ft_finish(char **str, char **line)
 {
-	free(*s1);
-	*s1 = NULL;
-	return (ret);
+	*line = ft_strdup(*str);
+	if (!(*line))
+		return (-1);
+	free(*str);
+	*str = NULL;
+	return (0);
 }
 
-static int		ft_line(char **p, char **line, int ret)
+int	ft_remplissage(char **str, char **line, int len)
 {
-	int		i;
-	char	*temp;
-	char	*str;
+	char	*tmp;
 
-	i = 0;
-	str = ft_strdup(*p);
-	ft_free(p, 0);
-	while (str[i] != '\0' && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-	{
-		*line = ft_substr(str, 0, i);
-		temp = str;
-		str = ft_strdup(&str[i + 1]);
-		free(temp);
-	}
-	else
-	{
-		*line = ft_strdup(str);
-		ft_free(&str, 0);
-	}
-	*p = str;
-	if (ret == 0 && str == NULL)
-		return (0);
+	*line = ft_substr(*str, 0, len);
+	if (!(*line))
+		return (-1);
+	tmp = ft_strdup((*str) + len + 1);
+	if (!tmp)
+		return (-1);
+	free(*str);
+	*str = ft_strdup(tmp);
+	if (!(*str))
+		return (-1);
+	free(tmp);
 	return (1);
 }
 
-int				get_next_line(int fd, char **line)
+int	ft_read(int fd, char **str)
 {
-	char			*buf;
-	char			*temp;
-	int				ret;
-	static char		*p[4864];
+	int		ret;
+	char	*buff;
+	char	*tmp;
 
-	if (BUFFER_SIZE < 0 || fd < 0 || !line || !(buf = malloc(BUFFER_SIZE + 1)))
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
 		return (-1);
-	if (p[fd] == NULL)
-		p[fd] = ft_strdup("");
-	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
+	ret = read(fd, buff, BUFFER_SIZE);
+	while (ret > 0)
 	{
-		buf[ret] = '\0';
-		temp = p[fd];
-		p[fd] = ft_strjoin(p[fd], buf);
-		free(temp);
-		if (ft_strchr(p[fd], '\n'))
+		buff[ret] = '\0';
+		tmp = ft_strjoin((*str), buff);
+		if (!tmp)
+			return (-1);
+		free(*str);
+		*str = NULL;
+		*str = ft_strdup(tmp);
+		if (!(*str))
+			return (-1);
+		free(tmp);
+		if (ft_strchr((*str), '\n'))
 			break ;
 	}
-	free(buf);
+	free(buff);
+	return (ret);
+}
+
+int	get_next_line(int fd, char **line)
+{
+	static char		*str;
+	int				ret;
+	int				len;
+
+	len = 0;
+	if (fd < 0 || BUFFER_SIZE < 0 || !line)
+		return (-1);
+	if (!str)
+	{
+		str = ft_strdup("");
+		if (!str)
+			return (-1);
+	}
+	ret = ft_read(fd, &str);
 	if (ret < 0)
-		return (ft_free(&p[fd], -1));
-	else if (ret == 0 && p[fd] == NULL)
-		return (ft_free(&p[fd], 0));
-	return (ft_line(&p[fd], line, ret));
+		return (-1);
+	while (str[len] != '\0' && str[len] != '\n')
+		len++;
+	if (str[len] == '\n')
+	{
+		return (ft_remplissage(&str, line, len));
+	}
+	else if (str[len] == '\0')
+		return (ft_finish(&str, line));
+	return (0);
 }

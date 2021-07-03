@@ -6,90 +6,70 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 04:18:37 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/06/29 15:22:16 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 14:25:55 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int		ft_word(char const *str, int i, int *nb_word, int c)
+static size_t	ft_numwords(char const *s, char c)
 {
-	*nb_word += 1;
-	while (str[i] != c && str[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	ft_free2(char **tab, int n)
-{
-	int	i;
+	size_t	i;
+	size_t	count;
 
 	i = 0;
-	while (i > n)
-		free(tab[i++]);
-	free(tab);
-	tab = NULL;
-}
-
-int		ft_add_word(char **tab, char const *str, int *nb_word, int c)
-{
-	int		word_len;
-	int		j;
-	char	*tmp;
-	int		k;
-
-	word_len = 0;
-	k = 0;
-	while (str[word_len] != c && str[word_len] != '\0')
-		word_len++;
-	if (!(tmp = (char *)malloc((word_len + 1) * sizeof(char))))
+	count = 0;
+	if (s[i] == 0)
+		return (0);
+	while (s[i] != '\0')
 	{
-		ft_free2(tab, *nb_word);
-		*nb_word = 0;
-		return (strlen(str));
+		while (s[i] != c && s[i] != '\0')
+		{
+			while (s[i] != c && s[i] != '\0')
+			{
+				i++;
+			}
+			count++;
+		}
+		while (s[i] == c && s[i] != '\0')
+			i++;
 	}
-	tmp[word_len] = '\0';
-	j = 0;
-	while (k < word_len)
-	{
-		tmp[j] = str[k++];
-		j++;
-	}
-	tab[*nb_word] = tmp;
-	*nb_word += 1;
-	return (word_len);
+	return (count);
 }
 
-void	initial(int *i, int *j)
+static char	**ft_free(char **str, int num)
 {
-	*i = 0;
-	*j = 0;
+	while (--num)
+		free(&str[num]);
+	free(str);
+	return (NULL);
 }
 
-char			**ft_split(char const *str, char c)
+char	**ft_split(char const *s, char c)
 {
-	int		i;
-	char	**tab;
-	int		number_words;
+	static size_t	i = 0;
+	size_t			num;
+	size_t			start;
+	static size_t	len = 0;
+	char			**str;
 
-	initial(&i, &number_words);
+	if (s == 0)
+		return (0);
+	num = ft_numwords(s, c) + 1;
+	str = (char **)malloc(sizeof(char *) * (num));
 	if (!str)
 		return (NULL);
-	while (str[i] != '\0')
-		if (str[i] != c)
-			i = ft_word(str, i, &number_words, c);
-		else
-			i++;
-	if (!(tab = (char **)malloc((number_words + 1) * sizeof(char *))))
-		return (NULL);
-	tab[number_words] = 0;
-	initial(&i, &number_words);
-	while (str[i] != '\0')
-		if (str[i] != c)
-			i += ft_add_word(tab, str + i, &number_words, c);
-		else
-			i++;
-	if (!number_words && !tab)
-		return (NULL);
-	return (tab);
+	while (i < num - 1)
+	{
+		while (s[len] == c && s[len])
+			len++;
+		start = len;
+		while (s[len] != c && s[len])
+			len++;
+		(str[i++] = ft_substr(s, start, (len - start)));
+		if (!str)
+			return (ft_free(str, num));
+	}
+	str[i] = 0;
+	return (str);
 }

@@ -6,7 +6,7 @@
 #    By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/29 15:22:32 by oel-yous          #+#    #+#              #
-#    Updated: 2021/07/01 17:19:42 by oel-yous         ###   ########.fr        #
+#    Updated: 2021/07/03 14:30:13 by oel-yous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
 
 SRCS		=  ft_split_bonus.c \
+				check_args_bonus \
 				gnl_bonus.c \
 				utis.c \
 				gnl_utils_bonus.c \
