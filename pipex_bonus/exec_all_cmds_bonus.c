@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 19:39:03 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 13:18:35 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	first_cmd(char **argv, char **cmd, int pipes[2])
 	}
 	dup2(pipes[1], 1);
 	dup2(in, 0);
-	// close(in);
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		if (strcmp(argv[2], ""))

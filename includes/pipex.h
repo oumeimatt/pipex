@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 14:32:36 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 19:24:06 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 13:14:17 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void check_leaks();
 void    bonus_args(int argc, char **argv);
 int		multiple_pipes(int argc, char **argv, t_tokens *tokens);
 void   pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2]);
+int	ft_mult_pipes(int argc, char **argv, t_tokens *tokens, char **split_path);
+int		ft_here_doc(char **argv, t_tokens *tokens, char **split_path, int stats);
 
 void	exec_command(t_all *all, char **argv);
 // void    print_list(t_tokens *head);

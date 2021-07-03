@@ -1,0 +1,14 @@
+total 80
+drwxr-xr-x  13 oel-yous  2019    442 Jul  3 13:27 .
+drwx------   4 oel-yous  2019    136 Jun 30 14:44 ..
+drwxr-xr-x  13 oel-yous  2019    442 Jul  1 19:41 .git
+-rw-r--r--   1 oel-yous  2019   1528 Jul  1 11:37 Makefile
+-rw-r--r--   1 oel-yous  2019      7 Jun 29 14:43 README.md
+-rw-r--r--   1 oel-yous  2019      0 Jul  3 13:27 fil3
+-------rwx   1 oel-yous  2019      0 Jul  3 13:17 file23
+drwxr-xr-x   3 oel-yous  2019    102 Jun 29 15:14 includes
+-rw-r--r--   1 oel-yous  2019   4311 Jun 30 13:02 leaks.c
+-rw-r--r--   1 oel-yous  2019   2422 Jun 30 12:20 main
+drwxr-xr-x   9 oel-yous  2019    306 Jul  1 19:14 mandatory
+-rwxr-xr-x   1 oel-yous  2019  19412 Jul  3 13:27 pipex
+drwxr-xr-x  23 oel-yous  2019    782 Jul  3 13:27 pipex_bonus
