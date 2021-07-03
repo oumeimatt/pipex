@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 13:59:49 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 17:13:14 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 13:34:01 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_tokens	*hd_tokens(char **argv)
 {
-	t_tokens *tokens;
-	char	**cmd1;
-	char	**cmd2;
+	t_tokens	*tokens;
+	char		**cmd1;
+	char		**cmd2;
 
 	tokens = NULL;
 	cmd1 = ft_split(argv[3], ' ');
@@ -37,7 +37,7 @@ void	read_line(t_tokens *tokens, char **split_path, char **argv)
 	while (get_next_line(0, &line) > 0)
 	{
 		if (strcmp(line, limiter) == 0)
-			break;
+			break ;
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
@@ -82,7 +82,7 @@ void	exec_cmd2(char **argv, char **cmd, t_tokens *tokens)
 	out = open(argv[5], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (out == -1)
 	{
-		perror(argv[5] );
+		perror(argv[5]);
 		exit(1);
 	}
 	close(tokens->out);
@@ -98,22 +98,21 @@ void	exec_cmd2(char **argv, char **cmd, t_tokens *tokens)
 	}
 }
 
-int		here_doc(t_tokens *tokens, char **argv, char **split_path, int stats)
+int	here_doc(t_tokens *tokens, char **argv, char **split_path, int stats)
 {
 	int		pid[2];
 
 	read_line(tokens, split_path, argv);
-    
 	ft_pipe(tokens);
 	pid[0] = fork();
-	if(pid[0] == -1)
+	if (pid[0] == -1)
 		exit(EXIT_FAILURE);
-	if(pid[0] == 0)
+	if (pid[0] == 0)
 		exec_cmd1(argv, tokens->cmd, tokens);
 	pid[1] = fork();
-	if(pid[1] == -1)
+	if (pid[1] == -1)
 		exit(EXIT_FAILURE);
-	if(pid[1] == 0)
+	if (pid[1] == 0)
 		exec_cmd2(argv, tokens->next->cmd, tokens);
 	close (tokens->in);
 	close(tokens->out);

@@ -6,18 +6,18 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 10:15:46 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 13:16:04 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 13:37:58 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void    ft_add_node(t_tokens **head_Ref, char **cmd)
+void	ft_add_node(t_tokens **head_Ref, char **cmd)
 {
-	t_tokens    *new_node;
-	t_tokens    *last;
+	t_tokens	*new_node;
+	t_tokens	*last;
 
-	new_node = (t_tokens*) malloc(sizeof(t_tokens));
+	new_node = (t_tokens *) malloc(sizeof(t_tokens));
 	last = *head_Ref;
 	new_node->cmd = cmd;
 	new_node->in = -1;
@@ -48,11 +48,11 @@ void	ft_pipe(t_tokens *tokens)
 	}
 }
 
-int     main(int argc, char ** argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_tokens	*tokens;
 	char		*path;
-	int			stats;;
+	int			stats;
 	char		**split_path;
 
 	stats = 0;
@@ -71,10 +71,10 @@ int     main(int argc, char ** argv, char **envp)
 		stats = ft_mult_pipes(argc, argv, tokens, split_path);
 	}
 	system("leaks pipex");
-	return(stats);
+	return (stats);
 }
 
-int		ft_here_doc(char **argv, t_tokens *tokens, char **split_path, int stats)
+int	ft_here_doc(char **argv, t_tokens *tokens, char **split_path, int stats)
 {
 	if (strcmp(argv[4], "") == TRUE || strcmp(argv[3], "") == TRUE)
 	{
@@ -107,7 +107,7 @@ int	ft_mult_pipes(int argc, char **argv, t_tokens *tokens, char **split_path)
 		if (tmp->next != NULL)
 			tmp = tmp->next;
 		else
-			break;
+			break ;
 	}
-	return (multiple_pipes(argc, argv , tokens));
+	return (multiple_pipes(argc, argv, tokens));
 }

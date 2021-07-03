@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 13:18:35 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 13:31:22 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	first_cmd(char **argv, char **cmd, int pipes[2])
 	if (in == -1)
 	{
 		ft_putstr_fd("pipex: ", 2);
-		perror(argv[1] );
+		perror(argv[1]);
 		exit(0);
 	}
 	dup2(pipes[1], 1);
@@ -56,11 +56,11 @@ void	first_cmd(char **argv, char **cmd, int pipes[2])
 	}
 }
 
-void    exec_cmd(char **argv, char **cmd, int i)
+void	exec_cmd(char **argv, char **cmd, int i)
 {
-    char	**split_arg;
+	char	**split_arg;
 
-    if (execve(cmd[0], cmd, NULL) == -1)
+	if (execve(cmd[0], cmd, NULL) == -1)
 	{
 		if (strcmp(argv[i], ""))
 		{
@@ -71,7 +71,6 @@ void    exec_cmd(char **argv, char **cmd, int i)
 		}
 		exit(0);
 	}
-
 }
 
 void	last_cmd(int argc, char **argv, char **cmd, int pipes[2])
@@ -82,7 +81,7 @@ void	last_cmd(int argc, char **argv, char **cmd, int pipes[2])
 	out = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (out == -1)
 	{
-		perror(argv[argc - 1] );
+		perror(argv[argc - 1]);
 		exit(1);
 	}
 	dup2(pipes[0], 0);

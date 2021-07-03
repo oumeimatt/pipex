@@ -6,22 +6,22 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 12:57:24 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 13:27:02 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 13:35:46 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void   pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2])
+void	pipes_loop(int argc, char **argv, t_tokens *tokens, int pipes[2])
 {
-	int     i;
-	pid_t   pid;
+	int		i;
+	pid_t	pid;
 
 	i = 3;
 	while (i < argc - 2)
 	{
 		pipe(pipes);
-		pid =  fork();
+		pid = fork();
 		if (pid < 0)
 			exit(1);
 		if (pid == 0)
@@ -36,8 +36,7 @@ void   pipes_loop(int argc,char **argv, t_tokens *tokens, int pipes[2])
 	}
 }
 
-
-int		ft_help_mult(int argc, char **argv, t_tokens *tokens, int pipes[2])
+int	ft_help_mult(int argc, char **argv, t_tokens *tokens, int pipes[2])
 {
 	pid_t	pid;
 	int		stats;
@@ -54,14 +53,14 @@ int		ft_help_mult(int argc, char **argv, t_tokens *tokens, int pipes[2])
 	return (stats);
 }
 
-int		multiple_pipes(int argc, char **argv, t_tokens *tokens)
+int	multiple_pipes(int argc, char **argv, t_tokens *tokens)
 {
 	int		pipes[2];
 	pid_t	pid;
 	int		count;
 	int		i;
 	int		stats;
-	
+
 	i = -1;
 	count = count_list(tokens);
 	stats = 0;
@@ -78,5 +77,5 @@ int		multiple_pipes(int argc, char **argv, t_tokens *tokens)
 		while (++i < count - 2)
 			tokens = tokens->next;
 	}
-	return(ft_help_mult(argc, argv, tokens, pipes));
+	return (ft_help_mult(argc, argv, tokens, pipes));
 }
