@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/20 16:04:27 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/01 16:01:56 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 17:29:59 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,25 @@ char	*absolute_path(char *cmd, char **s_path)
 
 void	error_management(int argc, char **argv)
 {
-	int 	out;
+	int	out;
 
 	if (argc != 5)
 	{
 		ft_putstr_fd("Error : need 4 arguments\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	if (strcmp(argv[1], "") == TRUE)
+	if (ft_strcmp(argv[1], "") == 0)
 	{
 		ft_putstr_fd("pipex: : No such file or directory\n", 2);
-		if (strcmp(argv[4], "") == TRUE)
+		if (ft_strcmp(argv[4], "") == TRUE)
 		{
 			ft_putstr_fd("pipex: : No such file or directory\n", 2);
 			exit(1);
 		}
 	}
-	if (strcmp(argv[2], "") == TRUE)
+	if (ft_strcmp(argv[2], "") == TRUE)
 		ft_putstr_fd("pipex: : command not found\n", 2);
-	if (strcmp(argv[3], "") == TRUE)
+	if (ft_strcmp(argv[3], "") == TRUE)
 	{
 		ft_putstr_fd("pipex: : command not found\n", 2);
 		out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);

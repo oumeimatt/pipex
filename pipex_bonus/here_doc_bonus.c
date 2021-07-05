@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 13:59:49 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 13:34:01 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 17:09:01 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	read_line(t_tokens *tokens, char **split_path, char **argv)
 	limiter = argv[2];
 	while (get_next_line(0, &line) > 0)
 	{
-		if (strcmp(line, limiter) == 0)
+		if (ft_strcmp(line, limiter) == 0)
 			break ;
 		ft_putendl_fd(line, fd);
 		free(line);
@@ -44,9 +44,9 @@ void	read_line(t_tokens *tokens, char **split_path, char **argv)
 	if (line)
 		free(line);
 	close(fd);
-	if (strcmp(argv[3], "") != 0)
+	if (ft_strcmp(argv[3], "") != 0)
 		tokens->cmd[0] = absolute_path(tokens->cmd[0], split_path);
-	if (strcmp(argv[4], "") != 0)
+	if (ft_strcmp(argv[4], "") != 0)
 		tokens->next->cmd[0] = absolute_path(tokens->next->cmd[0], split_path);
 }
 
@@ -60,7 +60,7 @@ void	exec_cmd1(char **argv, char **cmd, t_tokens *tokens)
 	dup2(tokens->out, 1);
 	dup2(in, 0);
 	unlink("/tmp/helper");
-	if (strcmp(argv[3], "") == 0)
+	if (ft_strcmp(argv[3], "") == 0)
 	{
 		ft_putstr_fd(" : command not found\n", 2);
 		exit(0);

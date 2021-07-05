@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 18:24:12 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 14:31:53 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/03 16:18:55 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -29,24 +29,9 @@ void	ft_putchar_fd(char c, int fd)
 	write(fd, &c, 1);
 }
 
-// int		ft_isalpha(char c)
-// {
-// 	if ((c >= 65 && c <= 90)
-// 		|| (c >= 97 && c <= 122))
-// 		return (TRUE);
-// 	return (FALSE);
-// }
-
-// int		ft_isdigit(char c)
-// {
-// 	if (c >= 48 && c <= 57)
-// 		return (TRUE);
-// 	return (FALSE);
-// }
-
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (n == 0)
@@ -62,7 +47,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0')

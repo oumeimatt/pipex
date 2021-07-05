@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 14:17:52 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 13:31:22 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/05 10:43:01 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	first_cmd(char **argv, char **cmd, int pipes[2])
 	{
 		ft_putstr_fd("pipex: ", 2);
 		perror(argv[1]);
-		exit(0);
+		exit(1);
 	}
 	dup2(pipes[1], 1);
 	dup2(in, 0);
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
-		if (strcmp(argv[2], ""))
+		if (ft_strcmp(argv[2], ""))
 		{
 			split_arg = ft_split(argv[2], ' ');
 			ft_putstr_fd("pipex: ", 2);
@@ -62,7 +62,7 @@ void	exec_cmd(char **argv, char **cmd, int i)
 
 	if (execve(cmd[0], cmd, NULL) == -1)
 	{
-		if (strcmp(argv[i], ""))
+		if (ft_strcmp(argv[i], ""))
 		{
 			split_arg = ft_split(argv[i], ' ');
 			ft_putstr_fd("pipex: ", 2);

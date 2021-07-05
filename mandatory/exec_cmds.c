@@ -6,7 +6,7 @@
 /*   By: oel-yous <oel-yous@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 16:18:54 by oel-yous          #+#    #+#             */
-/*   Updated: 2021/07/03 14:10:38 by oel-yous         ###   ########.fr       */
+/*   Updated: 2021/07/05 10:42:02 by oel-yous         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	exec_first_cmd(char **argv, t_all *all, int fds[2])
 	if (in == -1)
 	{
 		perror(argv[1]);
-		exit(0);
+		exit(1);
 	}
 	close(fds[0]);
 	dup2(fds[1], STDOUT_FILENO);
 	dup2(in, 0);
 	if (execve(all->cmd1_path, all->cmd1, NULL) == -1)
 	{
-		if (strcmp(argv[2], ""))
+		if (ft_strcmp(argv[2], ""))
 		{
 			split_arg = ft_split(argv[2], ' ');
 			ft_putstr_fd("pipex3: command not found: ", 2);
